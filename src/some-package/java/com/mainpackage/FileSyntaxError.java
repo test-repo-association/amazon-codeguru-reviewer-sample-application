@@ -18,7 +18,7 @@ public class FileSyntaxError {
     public void getObjectContentNoncompliant(AmazonS3 amazonS3Client, String bucketName, String key) throws IOException {
         final S3Object s3object = amazonS3Client.getObject(bucketName, key);
         // Noncompliant: the statement is incomplete and is missing ";" at the end.
-        System.out.println(s3object.getObjectMetadata())
+        System.out.println(s3object.getObjectMetadata());
         InputStream reportStream = s3object.getObjectContent();
         IOUtils.toString(reportStream);
     }
