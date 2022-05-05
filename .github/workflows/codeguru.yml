@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Configure AWS credentials
-      id: iam-role
-      continue-on-error: true
       uses: aws-actions/configure-aws-credentials@v1
+      if: ${{ always() }} # This ensures that your workflow runs successfully
       with:
-        role-to-assume: arn:aws:iam::979439380460:role/GitHubActionsCodeGuruReviewerRole
-        aws-region: eu-west-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
     
     - uses: actions/checkout@v2
       if: steps.iam-role.outcome == 'success'
@@ -40,7 +40,7 @@ jobs:
       if: steps.iam-role.outcome == 'success'
       continue-on-error: false
       with:          
-        s3_bucket: codeguru-reviewer-20220411-workshop
+        s3_bucket: codeguru-reviewer-patmanth-workshop
         build_path: ./target/classes
 
     - name: Store SARIF file
